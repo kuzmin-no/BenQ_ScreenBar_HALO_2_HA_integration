@@ -59,7 +59,7 @@ try:
         asyncio.run(main())
 
         # Sniff messages from remote control
-        if benq_halo2.receive_without_ack():
+        if benq_halo2.sniff_mode():
             update_mqtt_entities()
             last_run = time.time()
 

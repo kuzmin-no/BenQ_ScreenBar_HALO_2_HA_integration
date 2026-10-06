@@ -1,5 +1,6 @@
 import sys
 import json
+import config as my_config
 from machine import Pin
 from mqtt_as import MQTTClient, config
 
@@ -17,25 +18,16 @@ if "esp32" in platform:
 elif "rp2" in platform:
     wifi_led = Pin('LED', Pin.OUT)
 
-# Fill in the configuration below!!!
-# ==================================
+# Import configuraion
 #
-# WiFi SSID and password
+config['ssid'] = my_config.WLAN_SSID
+config['wifi_pw'] = my_config.WLAN_PASSWORD
 #
-config['ssid'] = 'WiFi-network-name'
-config['wifi_pw'] = 'WiFi-password'
-#
-# MQTT server and credentials
-#
-config['server'] = 'Mqtt-server-IP-address'
-config['user'] = 'Mqtt-username'
-config['password'] = 'Mqtt-password'
-#
-# Fill in the configuration above!!!
-# ==================================
+config['server'] = my_config.MQTT_SERVER
+config['user'] = my_config.MQTT_USER
+config['password'] = my_config.MQTT_PASSWORD
 
-# default root topic for home assistant discovery
-HOME_ASSISTANT_PREFIX = "homeassistant"
+HOME_ASSISTANT_PREFIX = my_config.HOME_ASSISTANT_PREFIX
 
 # Subscription callback
 def sub_cb(topic, msg, retained):

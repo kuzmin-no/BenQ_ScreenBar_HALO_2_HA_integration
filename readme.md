@@ -4,11 +4,29 @@ This is a fully functional PoC for integrating BenQ ScreenBar HALO 2 with Home A
 The project is written on MicroPython and uses [MicroPython Asynchronous MQTT](https://github.com/peterhinch/micropython-mqtt) library by Peter Hinch, 
 as well as ideas from [hatank](https://github.com/rguillon/hatank) by Renaud Guillon.
 
-## The required hardware:
-- Transceiver: [BM5602-60-1](https://www.holtek.com/page/vg/BM5602-60-1)
+## The supported hardware:
+- Transceiver:
+  - Holtek [BM5602-60-1](https://www.holtek.com/page/vg/BM5602-60-1)
+  - AMICCOM [A7105](https://files.banggood.com/A7105%20Datasheet%20v1.4.pdf) / MD7105-SY
+  - TI [CC2500](https://www.ti.com/product/CC2500) (tested with 24TRGC5-V4 Built-in PA+LNA)
 - MCU: tested with Raspberry Pi Pico W and ESP32-WROOM DevKit
 
-## Connection diagram
+## Quick start
+
+* Connect transceiver to the MCU according to the connection diagram / pinout (see below). Remember to connect GND and +3.3V
+* Install MicroPython to your MCU: [Raspberry Pi Pico W](https://www.raspberrypi.com/documentation/microcontrollers/micropython.html) or [ESP32-WROOM Devkit](https://micropython.org/download/ESP32_GENERIC/).
+* Clone the repository and edit transceiver type, WiFi and MQTT credentials in [config.py](src/config.py) file.
+* Copy the contents of `src` folder to the root folder of the MCU using PyCharm with [MicroPython](https://plugins.jetbrains.com/plugin/9777-micropython) plugin or other IDE/tool.
+* Restart MCU.
+* Use the Halo 2 remote controller to set the back lamp brightness to 10% and the color temperature to 3925 K. This is required to acquire the lamp's communication address. The address will be saved to the `halo2_address.py` file. If you want to use the integration device with another lamp that has a different communication address, simply delete this file, restart MCU and repeat this step.
+* The MQTT server will detect the HALO 2 lamp and create entities using autodiscovery. 
+
+![HA MQTT device](img/home_assistant_screenshot1.png)
+
+NB! The lamp changes values gradually, which takes time, and it is easy to confuse it by rapidly changing the state in HA.
+The On/Off switch powers off the both front- and back- lights and will try to prevent them from changing until the lamp is turned on again.
+
+## Connection diagram for Holtek BM5602-60-1
 
 ![](img/connection_diagramm.png)
 
@@ -21,20 +39,37 @@ as well as ideas from [hatank](https://github.com/rguillon/hatank) by Renaud Gui
 | VSS         | GND                 | GND                |
 | VDD         | +3.3V (OUT pin 36)  | +3.3V              |
 
-## Quick start
+## Pinout AMICCOM A7105 / MD7105-SY
 
-* Connect the BM5602-60-1 transceiver to the MCU according to the connection diagram. Remember to connect GND and +3.3V
-* Install MicroPython to your MCU: [Raspberry Pi Pico W](https://www.raspberrypi.com/documentation/microcontrollers/micropython.html) or [ESP32-WROOM Devkit](https://micropython.org/download/ESP32_GENERIC/).
-* Clone the repository and edit the WiFi and MQTT credentials in [halo_mqtt.py](src/benq_halo/halo_mqtt.py) file.
-* Copy the contents of `src` folder to the root folder of the MCU using PyCharm with [MicroPython](https://plugins.jetbrains.com/plugin/9777-micropython) plugin or other IDE/tool.
-* Restart MCU.
-* Use the Halo 2 remote controller to set the back lamp brightness to 10% and the color temperature to 3925 K. This is required to acquire the lamp's communication address. The address will be saved to the `halo2_address.py` file. If you want to use the integration device with another lamp that has a different communication address, simply delete this file, restart MCU and repeat this step.
-* The MQTT server will detect the HALO 2 lamp and create entities using autodiscovery. 
+![](img/a7105_pinout.png)
 
-![HA MQTT device](img/home_assistant_screenshot1.png)
+| AMICCOM A7105 | Raspberry Pi Pico W | ESP32-WROOM DevKit |
+|-------------|---------------------|--------------------|
+| scs         | GP1 (SPI0 CSn)      | GPIO 5             |
+| sck         | GP2 (SPI0 SCK)      | GPIO 18            |
+| sdio        | GP3 (SPI0 TX)       | GPIO 23            |
+| gio1        | GP4 (SPI0 RX)       | GPIO 19            |
+| gio2        | GP5 (GPIO)          | GPIO 4             |
+| gnd         | GND                 | GND                |
+| vdd         | +3.3V (OUT pin 36)  | +3.3V              |
 
-NB! The lamp changes values gradually, which takes time, and it is easy to confuse it by rapidly changing the state in HA.
-The On/Off switch powers off the both front- and back- lights and will try to prevent them from changing until the lamp is turned on again.
+## Pinout TI CC2500 / 24TRGC5-V4
+
+![](img/cc2500_pinout.png)
+
+For modules with a **Built-in PA+LNA**, connect **GDO2 to PA_EN** and **GDO0 to EX_EN**, so the transceiver will manage them automatically.
+Remember to **connect the antenna** before using module with Built-in PA.
+
+| TI CC2500   | Raspberry Pi Pico W | ESP32-WROOM DevKit |
+|-------------|---------------------|--------------------|
+| CSN         | GP1 (SPI0 CSn)      | GPIO 5             |
+| SCK         | GP2 (SPI0 SCK)      | GPIO 18            |
+| SO / MOSI   | GP3 (SPI0 TX)       | GPIO 23            |
+| SI / MISO   | GP4 (SPI0 RX)       | GPIO 19            |
+| GND         | GND                 | GND                |
+| VCC         | +3.3V (OUT pin 36)  | +3.3V              |
+| GDO2 -> PA_EN  |  |  |
+| GDO0 -> RX_EN  |  |  |
 
 ## Technical details
 
