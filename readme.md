@@ -9,6 +9,7 @@ as well as ideas from [hatank](https://github.com/rguillon/hatank) by Renaud Gui
   - Holtek [BM5602-60-1](https://www.holtek.com/page/vg/BM5602-60-1)
   - AMICCOM [A7105](https://files.banggood.com/A7105%20Datasheet%20v1.4.pdf) / MD7105-SY
   - TI [CC2500](https://www.ti.com/product/CC2500) (tested with 24TRGC5-V4 Built-in PA+LNA)
+  - Semtech [LR1121](https://www.semtech.com/products/wireless-rf/lora-connect/lr1121) (tested with Core1121-HF)
 - MCU: tested with Raspberry Pi Pico W and ESP32-WROOM DevKit
 
 ## Quick start
@@ -70,6 +71,22 @@ Remember to **connect the antenna** before using module with Built-in PA.
 | VCC         | +3.3V (OUT pin 36)  | +3.3V              |
 | GDO2 -> PA_EN  |  |  |
 | GDO0 -> RX_EN  |  |  |
+
+## Pinout Semtech LR1121-xF
+
+![](img/lr1121_pinout.png)
+
+| TI CC2500   | Raspberry Pi Pico W | ESP32-WROOM DevKit |
+|-------------|---------------------|--------------------|
+| CS          | GP1 (SPI0 CSn)      | GPIO 5             |
+| CLK         | GP2 (SPI0 SCK)      | GPIO 18            |
+| MOSI        | GP3 (SPI0 TX)       | GPIO 23            |
+| MISO        | GP4 (SPI0 RX)       | GPIO 19            |
+| RESET       | GP5 (GPIO)          | GPIO 16            |
+| BUSY        | GP6 (GPIO)          | GPIO 17            |
+| DIO9        | GP7 (GPIO)          | GPIO 4             |
+| GND         | GND                 | GND                |
+| VCC         | +3.3V (OUT pin 36)  | +3.3V              |
 
 ## Technical details
 

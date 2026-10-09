@@ -191,6 +191,7 @@ class bc5602:
         self._cs.value(1)
         if shift_one_bit:
             benq_halo.utils.shift_left(data)
+        self.send_command(CMD_FLUSH_RX_FIFO)
         return data
 
     def send_command(self, command, read_bytes=0):

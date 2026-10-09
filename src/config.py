@@ -17,7 +17,7 @@ MQTT_PASSWORD = 'Mqtt-password'
 HOME_ASSISTANT_PREFIX = "homeassistant"
 
 #
-# RF transceiver type: 'bc5602', 'a7105', 'cc2500'
+# RF transceiver type: 'bc5602', 'a7105', 'cc2500', 'lr1121'
 #
 RF_TRANSCEIVER = 'bc5602'
 
@@ -33,6 +33,9 @@ RF_TRANSCEIVER = 'bc5602'
 #MOSI_PIN = 3
 #MISO_PIN = 4
 #GPIO2_PIN = 5 # For A7105 module only
+#RST_PIN = 5   # For LR1121 module only
+#BUSY_PIN = 6  # For LR1121 module only
+#DIO9_PIN = 7  # For LR1121 module only
 #-------------------------------------
 # Example for ESP32
 #-------------------------------------
@@ -42,3 +45,6 @@ RF_TRANSCEIVER = 'bc5602'
 #MOSI_PIN = 23
 #MISO_PIN = 19
 #GPIO2_PIN = 4 # For A7105 module only
+#RST_PIN = 16  # For LR1121 module only
+#BUSY_PIN = 17 # For LR1121 module only
+#DIO9_PIN = 4  # For LR1121 module only

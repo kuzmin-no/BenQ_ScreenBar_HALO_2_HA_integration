@@ -137,11 +137,10 @@ class benq_halo():
             control = control | 0b00000010
         pkt_payload = [ control, self.front_lamp_brightness, color_temp_byte1, color_temp_byte2, 
                              self.back_lamp_brightness, color_temp_byte1, color_temp_byte2] + HALO2_PKT_END
-        self._rf_module.send_with_ack([command] + pkt_payload)
 
         # wait for status sync
-        for _ in range(10):
-            self._rf_module.send_with_ack([0x04] + pkt_payload)
+        for _ in range(5):
+            self._rf_module.send_with_ack([command] + pkt_payload)
             ack_data_raw = self._rf_module.receive_packet()
             if ack_data_raw:
                 ack_data = bytearray(ack_data_raw)
@@ -149,7 +148,7 @@ class benq_halo():
                     self.print_hex(ack_data, "Rcvt")
                 if bytearray(pkt_payload) == ack_data[1:]:
                     break
-                time.sleep_ms(500)
+            time.sleep_ms(500)
 
         self._rf_module._tx_mode = False
 
