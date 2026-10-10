@@ -4,7 +4,7 @@ This is a fully functional PoC for integrating BenQ ScreenBar HALO 2 with Home A
 The project is written on MicroPython and uses [MicroPython Asynchronous MQTT](https://github.com/peterhinch/micropython-mqtt) library by Peter Hinch, 
 as well as ideas from [hatank](https://github.com/rguillon/hatank) by Renaud Guillon.
 
-## The supported hardware:
+## Supported hardware
 - Transceiver:
   - Holtek [BM5602-60-1](https://www.holtek.com/page/vg/BM5602-60-1)
   - AMICCOM [A7105](https://files.banggood.com/A7105%20Datasheet%20v1.4.pdf) / MD7105-SY
@@ -76,7 +76,7 @@ Remember to **connect the antenna** before using module with Built-in PA.
 
 ![](img/lr1121_pinout.png)
 
-| TI CC2500   | Raspberry Pi Pico W | ESP32-WROOM DevKit |
+| LR1121      | Raspberry Pi Pico W | ESP32-WROOM DevKit |
 |-------------|---------------------|--------------------|
 | CS          | GP1 (SPI0 CSn)      | GPIO 5             |
 | CLK         | GP2 (SPI0 SCK)      | GPIO 18            |
